@@ -15,7 +15,7 @@ INSERT INTO employee VALUES
 (6, 'Pooja',  'Finance',  42000, '2021-06-18'),
 (7, 'Rohit',  'Sales',    30000, '2020-09-12'),
 (8, 'Anjali', 'Sales',    48000, '2018-04-25');
-<<<<<<< HEAD
+
 SELECT * FROM employee;
 
 SELECT department,AVG(salary) AS avg_salary
@@ -42,5 +42,4 @@ FROM employee
 WHERE salary > 20000
 GROUP BY department
 HAVING AVG(salary) > 30000
-<<<<<<< HEAD
 ORDER BY avg_salary DESC;
