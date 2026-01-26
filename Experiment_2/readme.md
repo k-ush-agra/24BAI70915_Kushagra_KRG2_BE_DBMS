@@ -51,24 +51,24 @@ The aim of this experiment is to practice writing SQL SELECT statements with fil
 <img width="1006" height="261" alt="image" src="Screenshots/Screenshot 2026-01-26 112855.png" />
 
 ### Average salary of employees for each department
-<img width="1002" height="97" alt="image" src="Screenshots/Screenshot 2026-01-26 112908.png" />
-<img width="1051" height="499" alt="image" src="Screenshots/Screenshot 2026-01-26 113442.png" />
+<img width="1002" height="97" alt="image" src="Screenshots/Screenshot 2026-01-26 122634.png" />
+<img width="1051" height="499" alt="image" src="Screenshots/Screenshot 2026-01-26 122644.png" />
 
 
 ### Consider only employees with salary > 20000
-<img width="995" height="119" alt="image" src="Screenshots/Screenshot 2026-01-26 112917.png"/>
-<img width="1061" height="495" alt="image" src="Screenshots/Screenshot 2026-01-26 113453.png" />
+<img width="995" height="119" alt="image" src="Screenshots/Screenshot 2026-01-26 122653.png"/>
+<img width="1061" height="495" alt="image" src="Screenshots/Screenshot 2026-01-26 122703.png" />
 
 
 ### Departments where avg salary > 30000
 
-<img width="992" height="141" alt="image" src="Screenshots/Screenshot 2026-01-26 112927.png" />
-<img width="1059" height="460" alt="image" src="Screenshots/Screenshot 2026-01-26 113505.png" />
+<img width="992" height="141" alt="image" src="Screenshots/Screenshot 2026-01-26 122708.png" />
+<img width="1059" height="460" alt="image" src="Screenshots/Screenshot 2026-01-26 122715.png" />
 
 
 ### Output: Final output in descending order of average salary
-<img width="1004" height="161" alt="image" src="Screenshots/Screenshot 2026-01-26 112937.png" />
-<img width="1067" height="475" alt="image" src="Screenshots/Screenshot 2026-01-26 113527.png" />
+<img width="1004" height="161" alt="image" src="Screenshots/Screenshot 2026-01-26 122721.png" />
+<img width="1067" height="475" alt="image" src="Screenshots/Screenshot 2026-01-26 122728.png" />
 
 
 ## Learning Outcome
