@@ -1,5 +1,6 @@
 # 🧠 DBMS Lab Repository — 24BAI70915
 
+
 <p align="center">
   <img src="https://img.shields.io/badge/PostgreSQL-PL%2FpgSQL-blue?style=for-the-badge&logo=postgresql">
   <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge">
