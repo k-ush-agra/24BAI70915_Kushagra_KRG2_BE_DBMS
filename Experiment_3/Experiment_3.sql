@@ -10,3 +10,4 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Employee Salary: ' || emp_salary);
     DBMS_OUTPUT.PUT_LINE('Kushagra Vashistha 24BAI70915');
 END;
+--- Experiment 3: SQL PL/SQL Block
