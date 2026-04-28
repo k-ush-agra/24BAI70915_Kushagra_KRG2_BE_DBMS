@@ -1,40 +1,68 @@
+DROP TABLE IF EXISTS Tbl_Supply_logs CASCADE;
+DROP TABLE IF EXISTS Tbl_Orders CASCADE;
+DROP TABLE IF EXISTS Tbl_Suppliers CASCADE;
+DROP TABLE IF EXISTS Tbl_Products CASCADE;
 
-CREATE TABLE products (
-    product_id SERIAL PRIMARY KEY,
-    product_name VARCHAR(255) NOT NULL
+CREATE TABLE Tbl_Products (
+    prod_id INT PRIMARY KEY,
+    prod_name VARCHAR(100),
+    category VARCHAR(50),
+    price INT,
+    stock_qty INT
 );
 
-CREATE TABLE order_items (
-    order_id SERIAL PRIMARY KEY,
-    product_id INT REFERENCES products(product_id),
-    quantity INT NOT NULL
+CREATE TABLE Tbl_Suppliers (
+    sup_id INT PRIMARY KEY,
+    sup_name VARCHAR(100),
+    city VARCHAR(50),
+    rating INT
 );
 
+CREATE TABLE Tbl_Orders (
+    order_id INT PRIMARY KEY,
+    prod_id INT,
+    cust_id INT,
+    order_date DATE,
+    qty INT,
+    FOREIGN KEY (prod_id) REFERENCES Tbl_Products(prod_id)
+);
 
-INSERT INTO products (product_name) VALUES
-    ('Laptop'),
-    ('Smartphone'),
-    ('Tablet'),
-    ('Smartwatch'),  -- This product will have no orders
-    ('Headphones');
+CREATE TABLE Tbl_Supply_logs (
+    log_id INT PRIMARY KEY,
+    action_type VARCHAR(20),
+    prod_id INT,
+    old_qty INT,
+    new_qty INT,
+    log_time TIMESTAMP,
+    FOREIGN KEY (prod_id) REFERENCES Tbl_Products(prod_id)
+);
 
-INSERT INTO order_items (product_id, quantity) VALUES
-    (1, 2),
-    (1, 1),
-    (2, 5),
-    (3, 3),
-    (5, 10),
-    (5, 2);
+INSERT INTO Tbl_Products VALUES
+(501, 'Laptop Pro', 'Electronics', 75000, 15),
+(502, 'Ergo Chair', 'Furniture', 15000, 8),
+(503, 'Smartwatch', 'Electronics', 5000, 10);
+
+INSERT INTO Tbl_Suppliers VALUES
+(701, 'NextGen Tech', 'Bangalore', 5),
+(702, 'Comfort Hub', 'Mumbai', 4);
+
+INSERT INTO Tbl_Orders VALUES
+(9001, 501, 101, '2026-04-20', 1),
+(9002, 502, 102, '2026-04-21', 2),
+(9003, 501, 103, '2026-04-22', 2);
+
+INSERT INTO Tbl_Supply_logs VALUES
+(1, 'UPDATE', 501, 20, 15, '2026-04-20 10:00:00');
 
 SELECT 
-    p.product_name, 
-    CASE WHEN SUM(o.quantity) IS NULL THEN 0 ELSE SUM(o.quantity) END AS total_quantity_ordered
+    p.prod_name, 
+    CASE WHEN SUM(o.qty) IS NULL THEN 0 ELSE SUM(o.qty) END AS total_quantity_ordered
 FROM 
-    products p
+    Tbl_Products p
 LEFT JOIN 
-    order_items o ON p.product_id = o.product_id
+    Tbl_Orders o ON p.prod_id = o.prod_id
 GROUP BY 
-    p.product_id, 
-    p.product_name
+    p.prod_id, 
+    p.prod_name
 ORDER BY 
-    p.product_id;
+    p.prod_id;
