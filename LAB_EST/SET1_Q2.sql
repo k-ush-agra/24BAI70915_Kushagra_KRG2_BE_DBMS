@@ -1,54 +1,79 @@
+DROP TABLE IF EXISTS Tbl_Supply_logs CASCADE;
+DROP TABLE IF EXISTS Tbl_Orders CASCADE;
+DROP TABLE IF EXISTS Tbl_Suppliers CASCADE;
+DROP TABLE IF EXISTS Tbl_Products CASCADE;
 
-CREATE TABLE products (
-    product_id SERIAL PRIMARY KEY,
-    product_name VARCHAR(255) NOT NULL,
-    stock_qty INT NOT NULL CHECK (stock_qty >= 0)
+CREATE TABLE Tbl_Products (
+    prod_id INT PRIMARY KEY,
+    prod_name VARCHAR(100),
+    category VARCHAR(50),
+    price INT,
+    stock_qty INT CHECK (stock_qty >= 0)
 );
 
-
-CREATE TABLE orders (
-    order_id SERIAL PRIMARY KEY,
-    product_id INT REFERENCES products(product_id),
-    qty INT NOT NULL CHECK (qty > 0)
+CREATE TABLE Tbl_Suppliers (
+    sup_id INT PRIMARY KEY,
+    sup_name VARCHAR(100),
+    city VARCHAR(50),
+    rating INT
 );
 
+CREATE TABLE Tbl_Orders (
+    order_id INT PRIMARY KEY,
+    prod_id INT,
+    cust_id INT,
+    order_date DATE,
+    qty INT CHECK (qty > 0),
+    FOREIGN KEY (prod_id) REFERENCES Tbl_Products(prod_id)
+);
 
-INSERT INTO products (product_name, stock_qty) VALUES
-    ('Laptop', 50),
-    ('Smartphone', 100),
-    ('Tablet', 0);
+CREATE TABLE Tbl_Supply_logs (
+    log_id INT PRIMARY KEY,
+    action_type VARCHAR(20),
+    prod_id INT,
+    old_qty INT,
+    new_qty INT,
+    log_time TIMESTAMP,
+    FOREIGN KEY (prod_id) REFERENCES Tbl_Products(prod_id)
+);
 
+INSERT INTO Tbl_Products VALUES
+(501, 'Laptop Pro', 'Electronics', 75000, 15),
+(502, 'Ergo Chair', 'Furniture', 15000, 8),
+(503, 'Tablet', 'Electronics', 20000, 0);
+
+INSERT INTO Tbl_Suppliers VALUES
+(701, 'NextGen Tech', 'Bangalore', 5),
+(702, 'Comfort Hub', 'Mumbai', 4);
+
+INSERT INTO Tbl_Orders VALUES
+(9001, 501, 101, '2026-04-20', 1),
+(9002, 502, 102, '2026-04-21', 2);
+
+INSERT INTO Tbl_Supply_logs VALUES
+(1, 'UPDATE', 501, 20, 15, '2026-04-20 10:00:00');
 
 CREATE OR REPLACE FUNCTION check_stock_before_order()
 RETURNS TRIGGER AS $$
 DECLARE
     available_stock INT;
 BEGIN
-    -- Get the current stock quantity for the requested product
     SELECT stock_qty INTO available_stock
-    FROM products
-    WHERE product_id = NEW.product_id;
+    FROM Tbl_Products
+    WHERE prod_id = NEW.prod_id;
 
-    -- Check if the requested quantity exceeds the available stock
     IF NEW.qty > available_stock THEN
         RAISE EXCEPTION 'Insufficient stock for product ID %. Requested: %, Available: %', 
-                        NEW.product_id, NEW.qty, available_stock;
+                        NEW.prod_id, NEW.qty, available_stock;
     END IF;
 
-    -- If stock is sufficient, allow the INSERT to proceed
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_check_stock
-BEFORE INSERT ON orders
+BEFORE INSERT ON Tbl_Orders
 FOR EACH ROW
 EXECUTE FUNCTION check_stock_before_order();
 
-
-
-INSERT INTO orders (product_id, qty) VALUES (1, 10);
-
-INSERT INTO orders (product_id, qty) VALUES (2, 150);  --  Failing order (requested quantity exceeds stock)
-
-INSERT INTO orders (product_id, qty) VALUES (3, 1);    --  Failing order (out of stock)
+INSERT INTO Tbl_Orders VALUES (9003, 501, 103, '2026-04-22', 10);
